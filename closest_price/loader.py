@@ -1,8 +1,13 @@
+import csv
+
+
 class Loader:
     @staticmethod
-    def load_csv(file_path):
+    def load_csv(file_path, delimiter=" "):
         # Load csv file and fetch data
-        pass
+        with open(file_path, newline="") as csv_file:
+            spamreader = csv.reader(csv_file, delimiter=delimiter)
+            return [int(row[0]) for row in spamreader]
 
     @staticmethod
     def load_input():
