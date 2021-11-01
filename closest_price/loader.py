@@ -1,24 +1,21 @@
 import csv
+from typing import List, Optional
+from dataclasses import dataclass, field
 
 
+@dataclass
 class Loader:
-    @staticmethod
-    def load_csv(file_path, delimiter=" "):
+    values: Optional[List[float]] = field(default_factory=list)
+
+    def load_csv(self, file_path, delimiter=" "):
         # Load csv file and fetch data
         with open(file_path, newline="") as csv_file:
             spamreader = csv.reader(csv_file, delimiter=delimiter)
-            return [int(row[0]) for row in spamreader]
+            self.values.extend([float(row[0]) for row in spamreader])
 
-    @staticmethod
-    def load_input():
-        # Ask for inputs untils an empty input is sent
-        data = []
+        return self.values
 
-        while True:
-            print(f"valeurs actuelles {data}")
-            value = input("Ajoutez une valeur (valeur vide pour quitter): ")
-            if not value:
-                break
-            data.append(int(value))
+    def load_input(self, value: float):
+        self.values.append(value)
 
-        return data
+        return self.values

@@ -12,24 +12,34 @@ def main():
     choice = input("Ton choix: ")
     print()
 
+    loader = Loader()
+
     match choice:
         case "1":
             print("////////////////////////////////////////")
             print("/                 CSV.                 /")
             print("////////////////////////////////////////")
             file_path = input("Choisiser le chemin d'accès du fichier: ")
-            values = Loader.load_csv(file_path)
+            loader.load_csv(file_path)
         case "2":
             print("////////////////////////////////////////")
             print("/              A la main.              /")
             print("////////////////////////////////////////")
-            values = Loader.load_input()
+
+            # Ask for inputs untils an empty input is sent
+            while True:
+                print(f"valeurs actuelles {loader.values}")
+                value = input(
+                    "Ajoutez une valeur (valeur vide pour quitter): ")
+                if not value:
+                    break
+                loader.load_input(float(value))
         case _:
             print("Ce choix n'existe pas")
             return
     print()
     target = int(input("Choisissez un prix cible: "))
-    best_choices, rest = the_price_is_right(values, target)
+    best_choices, rest = the_price_is_right(loader.values, target)
 
     print(
         f"La selection donnant le résultat le plus proche est {best_choices}.")
